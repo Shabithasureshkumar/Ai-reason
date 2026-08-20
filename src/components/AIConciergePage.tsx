@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { TopNavigation } from './TopNavigation';
 import { StethoscopeBackground } from './StethoscopeBackground';
 import { AuraHeader } from './AuraHeader';
@@ -7,17 +7,59 @@ import { QuickActionChips } from './QuickActionChips';
 import { BottomContinuationMessage } from './BottomContinuationMessage';
 import { PasteConversationModal } from './PasteConversationModal';
 import { AIAnalysisResultsModal } from './AIAnalysisResultsModal';
+import { NavItem } from '../types/navigation';
 
 interface AIConciergePageProps {
-  onTabChange?: (tab: string) => void;
+  activeTab: NavItem;
+  onTabChange: (tab: NavItem) => void;
 }
 
-export const AIConciergePage: React.FC<AIConciergePageProps> = ({ onTabChange }) => {
+/** Simulated triage latency for this front-end prototype (no network call). */
+const ANALYSIS_DELAY_MS = 1200;
+const IMPORT_ANALYSIS_DELAY_MS = 1400;
+
+export const AIConciergePage: React.FC<AIConciergePageProps> = ({ activeTab, onTabChange }) => {
   const [message, setMessage] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isResultsOpen, setIsResultsOpen] = useState(false);
   const [isPasteModalOpen, setIsPasteModalOpen] = useState(false);
   const [activeUserPrompt, setActiveUserPrompt] = useState('');
+
+  // One owned timer handle. Starting a new analysis cancels any pending one and
+  // unmounting clears it, so a completion callback can never fire twice or land
+  // on an unmounted tree.
+  const analysisTimerRef = useRef<number | null>(null);
+
+  // The composer button is disabled while analysing, so it loses focus before
+  // the results dialog opens. Capture it at the moment the user acts so focus
+  // can be handed back correctly on close.
+  const analysisTriggerRef = useRef<HTMLElement | null>(null);
+
+  const cancelPendingAnalysis = useCallback(() => {
+    if (analysisTimerRef.current !== null) {
+      window.clearTimeout(analysisTimerRef.current);
+      analysisTimerRef.current = null;
+    }
+  }, []);
+
+  useEffect(() => cancelPendingAnalysis, [cancelPendingAnalysis]);
+
+  const runAnalysis = useCallback(
+    (prompt: string, delayMs: number) => {
+      analysisTriggerRef.current =
+        document.activeElement instanceof HTMLElement ? document.activeElement : null;
+      cancelPendingAnalysis();
+      setActiveUserPrompt(prompt);
+      setIsAnalyzing(true);
+
+      analysisTimerRef.current = window.setTimeout(() => {
+        analysisTimerRef.current = null;
+        setIsAnalyzing(false);
+        setIsResultsOpen(true);
+      }, delayMs);
+    },
+    [cancelPendingAnalysis],
+  );
 
   // Select Quick Action Prompt
   const handleSelectQuickAction = (prompt: string) => {
@@ -26,45 +68,35 @@ export const AIConciergePage: React.FC<AIConciergePageProps> = ({ onTabChange })
 
   // Start AI Analysis
   const handleStartAnalysis = () => {
-    if (!message.trim()) return;
-
-    setActiveUserPrompt(message);
-    setIsAnalyzing(true);
-
-    // Simulate realistic AI Triage processing delay
-    setTimeout(() => {
-      setIsAnalyzing(false);
-      setIsResultsOpen(true);
-    }, 1200);
+    const trimmed = message.trim();
+    if (!trimmed || isAnalyzing) return;
+    runAnalysis(trimmed, ANALYSIS_DELAY_MS);
   };
 
   // Handle Pasted Conversation from another AI
   const handleImportPastedConversation = (pastedText: string) => {
-    setMessage(`Imported AI Chat Transcript:\n"${pastedText.slice(0, 180)}..."`);
-    setActiveUserPrompt(pastedText);
-    setIsAnalyzing(true);
+    const trimmed = pastedText.trim();
+    if (!trimmed) return;
 
-    setTimeout(() => {
-      setIsAnalyzing(false);
-      setIsResultsOpen(true);
-    }, 1400);
+    setMessage(`Imported AI Chat Transcript:\n"${trimmed.slice(0, 180)}..."`);
+    runAnalysis(trimmed, IMPORT_ANALYSIS_DELAY_MS);
   };
 
   return (
     <div className="min-h-screen bg-[#F7F6FB] text-slate-800 flex flex-col font-sans relative selection:bg-purple-200 selection:text-purple-900 pb-12 overflow-x-hidden">
-      
+
       {/* 1. TOP NAVIGATION */}
-      <TopNavigation activeTab="Dashboard" onTabChange={onTabChange} />
+      <TopNavigation activeTab={activeTab} onTabChange={onTabChange} />
 
       {/* MAIN CONTENT AREA WITH STETHOSCOPE & PURPLE GLOW BACKGROUND */}
       <div className="flex-1 relative max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 flex flex-col items-center justify-between">
-        
+
         {/* 2 & 3. BACKGROUND ARTWORK & SOFT PURPLE GLOWS */}
         <StethoscopeBackground />
 
         {/* CENTER CONTENT WRAPPER */}
         <main className="w-full max-w-4xl mx-auto space-y-6 sm:space-y-8 relative z-10 my-auto">
-          
+
           {/* 4, 5, 6, 7. AURA AI HEADER, HEADING, SUBTITLE & INTRO MESSAGE */}
           <section aria-label="Aura AI Introduction">
             <AuraHeader />
@@ -106,9 +138,7 @@ export const AIConciergePage: React.FC<AIConciergePageProps> = ({ onTabChange })
         isOpen={isResultsOpen}
         onClose={() => setIsResultsOpen(false)}
         userPrompt={activeUserPrompt || message}
-        onBookSpecialist={(docName) => {
-          console.log(`Specialist booked: ${docName}`);
-        }}
+        restoreFocusTo={analysisTriggerRef}
       />
 
     </div>

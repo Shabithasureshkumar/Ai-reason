@@ -7,8 +7,8 @@ export const AuraHeader: React.FC = () => {
       
       {/* PURPLE CIRCULAR ROBOT / AI ICON CONTAINER */}
       <div className="relative">
-        <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-gradient-to-tr from-[#7C3AED] via-[#8B5CF6] to-[#6366F1] flex items-center justify-center text-white shadow-lg shadow-purple-500/25 ring-4 ring-purple-100/80 transition-transform duration-300 hover:scale-105">
-          <Bot className="w-7 h-7 text-white stroke-[2.2]" />
+        <div className="w-[45px] h-[45px] sm:w-14 sm:h-14 rounded-full bg-gradient-to-tr from-[#7C3AED] via-[#8B5CF6] to-[#6366F1] flex items-center justify-center text-white shadow-lg shadow-purple-500/25 ring-4 ring-purple-100/80 transition-transform duration-300 hover:scale-105">
+          <Bot className="w-6 h-6 sm:w-7 sm:h-7 text-white stroke-[2.2]" aria-hidden="true" />
         </div>
       </div>
 
@@ -20,7 +20,7 @@ export const AuraHeader: React.FC = () => {
       </div>
 
       {/* MAIN HEADING */}
-      <h1 className="mt-3.5 text-3xl sm:text-4xl font-extrabold text-[#1E1B4B] tracking-tight leading-tight">
+      <h1 className="mt-3.5 text-[27.2px] leading-[1.15] sm:text-4xl sm:leading-tight font-extrabold text-[#1E1B4B] tracking-tight">
         How are you feeling today?
       </h1>
 
@@ -30,8 +30,8 @@ export const AuraHeader: React.FC = () => {
       </p>
 
       {/* AI INTRO FLOATING TEXT COMPOSITION MATCHING FIGMA */}
-      <div className="mt-5 flex items-start justify-center gap-2.5 max-w-xl mx-auto text-left px-2">
-        <Sparkles className="w-5 h-5 text-[#7C3AED] shrink-0 mt-0.5 fill-[#7C3AED]/20 stroke-[2]" />
+      <div className="mt-5 flex items-start justify-center gap-3 sm:gap-2.5 max-w-xl mx-auto text-left px-2">
+        <Sparkles className="w-6 h-6 sm:w-5 sm:h-5 text-[#7C3AED] shrink-0 mt-0.5 fill-[#7C3AED]/20 stroke-[2]" aria-hidden="true" />
         <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium">
           Hi, I'm <span className="text-[#7C3AED] font-bold">Aura</span>. Tell me what you're dealing with and I'll help you understand your symptoms, recommend the right specialist, estimate wait times, and connect you with a doctor today.
         </p>

@@ -3,6 +3,7 @@ import { VitalItem, LabPanel, ImagingStudy, CareRecommendation, PatientInfo } fr
 export const patientInfo: PatientInfo = {
   name: "David Brock",
   role: "General Physician",
+  planLabel: "Free user",
   avatarUrl: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=150&auto=format&fit=crop&q=80",
 };
 
