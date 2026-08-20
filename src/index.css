@@ -15,14 +15,24 @@
     backdrop-filter: blur(12px);
     border: 1px solid rgba(237, 233, 254, 0.8);
   }
-  
+
   .glass-hero {
     background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 50%, #5B21B6 100%);
     box-shadow: 0 10px 30px -10px rgba(124, 58, 237, 0.3);
   }
-  
+
   .sparkle-glow {
     box-shadow: 0 0 15px rgba(167, 139, 250, 0.4);
+  }
+
+  /* Referenced by horizontally scrollable rows (nav pill, prompt chips).
+     Previously undefined, so the scrollbar was never actually hidden. */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }
 
@@ -40,4 +50,14 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #C4B5FD;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

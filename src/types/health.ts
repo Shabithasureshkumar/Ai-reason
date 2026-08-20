@@ -53,6 +53,9 @@ export interface CareRecommendation {
 
 export interface PatientInfo {
   name: string;
+  /** Shown on desktop headers (matches the desktop Figma). */
   role: string;
+  /** Shown on the mobile header (matches the mobile Figma). */
+  planLabel: string;
   avatarUrl: string;
 }

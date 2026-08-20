@@ -7,37 +7,37 @@ export const StethoscopeBackground: React.FC = () => {
       {/* 2. SOFT PURPLE BACKGROUND GLOWS MATCHING FIGMA */}
       {/* Upper Left Glow */}
       <div 
-        className="absolute -left-28 top-8 w-[34rem] h-[34rem] rounded-full opacity-45 blur-[130px]"
+        className="absolute left-[32px] top-[42px] w-[62px] h-[62px] blur-[18px] opacity-80 sm:left-auto sm:-left-28 sm:top-8 sm:w-[34rem] sm:h-[34rem] sm:opacity-45 sm:blur-[130px] rounded-full"
         style={{ background: 'radial-gradient(circle, rgba(167, 139, 250, 0.4) 0%, rgba(221, 214, 254, 0.08) 70%, transparent 100%)' }}
       />
 
       {/* Upper Right Glow */}
       <div 
-        className="absolute -right-24 top-10 w-[38rem] h-[38rem] rounded-full opacity-50 blur-[140px]"
+        className="absolute left-[348px] top-[92px] w-[75px] h-[75px] blur-[20px] opacity-80 sm:left-auto sm:-right-24 sm:top-10 sm:w-[38rem] sm:h-[38rem] sm:opacity-50 sm:blur-[140px] rounded-full"
         style={{ background: 'radial-gradient(circle, rgba(139, 92, 246, 0.42) 0%, rgba(196, 181, 253, 0.12) 70%, transparent 100%)' }}
       />
 
       {/* Right Middle Glow */}
       <div 
-        className="absolute right-8 top-[46%] w-72 h-72 rounded-full opacity-45 blur-[85px]"
+        className="absolute right-[10px] top-[34%] w-[52px] h-[52px] blur-[18px] opacity-70 sm:right-8 sm:top-[46%] sm:w-72 sm:h-72 sm:opacity-45 sm:blur-[85px] rounded-full"
         style={{ background: 'radial-gradient(circle, rgba(167, 139, 250, 0.5) 0%, rgba(237, 233, 254, 0.1) 70%, transparent 100%)' }}
       />
 
       {/* Lower Right Glow */}
       <div 
-        className="absolute -right-16 bottom-6 w-[32rem] h-[32rem] rounded-full opacity-40 blur-[120px]"
+        className="absolute left-[351px] bottom-[44px] w-[59px] h-[59px] blur-[18px] opacity-75 sm:left-auto sm:-right-16 sm:bottom-6 sm:w-[32rem] sm:h-[32rem] sm:opacity-40 sm:blur-[120px] rounded-full"
         style={{ background: 'radial-gradient(circle, rgba(124, 58, 237, 0.35) 0%, rgba(221, 214, 254, 0.08) 70%, transparent 100%)' }}
       />
 
       {/* Lower Left Glow */}
       <div 
-        className="absolute left-4 bottom-12 w-[30rem] h-[30rem] rounded-full opacity-40 blur-[110px]"
+        className="absolute -left-[6px] bottom-[79px] w-[59px] h-[59px] blur-[18px] opacity-75 sm:left-4 sm:bottom-12 sm:w-[30rem] sm:h-[30rem] sm:opacity-40 sm:blur-[110px] rounded-full"
         style={{ background: 'radial-gradient(circle, rgba(167, 139, 250, 0.38) 0%, rgba(237, 233, 254, 0.08) 70%, transparent 100%)' }}
       />
 
       {/* 3. LARGE SUBTLE STETHOSCOPE BACKGROUND ILLUSTRATION */}
       <svg
-        className="w-[96%] max-w-[1040px] h-auto opacity-[0.24] transform translate-y-2 select-none"
+        className="w-[125%] sm:w-[96%] max-w-none sm:max-w-[1040px] h-auto opacity-[0.34] sm:opacity-[0.24] transform translate-x-[18%] -translate-y-[9%] sm:translate-x-0 sm:translate-y-2 select-none"
         viewBox="0 0 950 680"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
